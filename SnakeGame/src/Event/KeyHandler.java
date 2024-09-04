@@ -3,36 +3,41 @@ package Event;
 import Main.SnakeGame;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
-public class KeyHandler implements EventHandler<KeyEvent> {
+public class KeyHandler {
+	 private final SnakeGame game;
 
-	private SnakeGame game;
-	
-	public KeyHandler(SnakeGame game) {
-		this.game = game;
-	}
-	
-	@Override
-	public void handle(KeyEvent key) {
-		
-		switch(key.getCode()) {
-		
-		case UP:
-			if(!"DOWN".equals(game.getDirection())) game.setDirection("UP");
-			break;
-		case DOWN:
-			if(!"UP".equals(game.getDirection())) game.setDirection("DOWN");
-			break;
-		case LEFT: 
-			if(!"RIGHT".equals(game.getDirection())) game.setDirection("LEFT");
-			break;
-		case RIGHT:
-			if(!"LEFT".equals(game.getDirection())) game.setDirection("RIGHT");
-			break;
-		default:
-			break;
-		}
-		
-	}
+	    public KeyHandler(SnakeGame game) {
+	        this.game = game;
+	    }
 
+	    // Handler für Tastatureingaben
+	    public EventHandler<KeyEvent> getKeyHandler() {
+	        return event -> {
+	            switch (event.getCode()) {
+	                case UP:
+	                    game.changeDirection("UP");
+	                    break;
+	                case DOWN:
+	                    game.changeDirection("DOWN");
+	                    break;
+	                case LEFT:
+	                    game.changeDirection("LEFT");
+	                    break;
+	                case RIGHT:
+	                    game.changeDirection("RIGHT");
+	                    break;
+	                default:
+	                    break;
+	            }
+	        };
+	    }
+
+	    // Handler für Mausklicks
+	    public EventHandler<MouseEvent> getMouseHandler() {
+	        return event -> {
+	            game.togglePause();
+	        };
+	    }
 }
